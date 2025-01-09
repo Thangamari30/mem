@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer with Music</title>
+    <style>
+       body{
+            text-align: center;
+            margin-top: 200px;
+            font-size: 50px;
+            text-shadow: 4px 4px 8px black;
+            
+
+        }
+        h1{
+            color:chartreuse
+        }
+        #timer{
+            font-size: 100px;
+            color:aliceblue;
+            text-shadow: 4px 4px 8px black;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #9017d6;
+            color: #ebd510;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #1bc7d3;
+        }
+        body{
+            background-image: url(ima.avif);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            /* height: 1200px; */
+            color: seashell;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countdown Timer</h1>
+    <div id="timer">Initializing...</div>
+    <button id="startButton">Start Countdown</button>
+
+    <script>
+        // Set the target date
+        const targetDate = new Date("2025-01-08T14:57:59").getTime();
+
+        // Load the background music
+        const backgroundMusic = new Audio('pongal.mp3'); // Replace with your music file URL
+        backgroundMusic.loop = true; // Music will loop when it starts playing
+
+        // Start countdown function
+        function startCountdown() {
+            const startButton = document.getElementById('startButton');
+            startButton.style.display = 'none'; // Hide start button after clicked
+
+
+            const timeInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const timeLeft = targetDate - now;
+
+                // Check if the countdown has reached zero
+                if (timeLeft <= 0) {
+                    clearInterval(timeInterval); // Stop the timer
+                    document.getElementById("timer").innerHTML = "Happy Pongal!";
+                    document.getElementById("timer").style.color = "darkblue";
+                    document.getElementById("timer").style.fontSize="10vw";
+
+                    // Play background music
+                    backgroundMusic.play().catch(error => {
+                        console.error('Music playback failed:', error);
+                    });
+                    return;
+                }
+
+                // Calculate days, hours, minutes, and seconds
+                // const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                // const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                // const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                // const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                const days=Math.floor(timeLeft/(1000*60*60*24));
+                const hours=Math.floor(timeLeft%(1000*60*60*24)/(1000*60*60));
+                const minutes=Math.floor((timeLeft%(1000*60*60))/(1000*60));
+                const seconds=Math.floor((timeLeft%(1000*60))/1000);
+
+                // Format the time string
+                const timeString = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+                document.getElementById("timer").innerHTML = timeString;
+            }, 1000); // Update every second
+        }
+
+        // Attach event listener to the button
+        document.getElementById('startButton').addEventListener('click', startCountdown);
+// 1000m=1s
+// 60s=1m
+// 60m=1hrs
+// 24hrs=1day
+    </script>
+</body>
+</html>
+
